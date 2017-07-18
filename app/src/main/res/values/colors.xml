@@ -7,4 +7,5 @@
     <color name="white">#ffffff</color>
     <color name="light_grey">#dddddd</color>
     <color name="blue">#5599ff</color>
+    <color name="dialogBackground">#444444</color>
 </resources>

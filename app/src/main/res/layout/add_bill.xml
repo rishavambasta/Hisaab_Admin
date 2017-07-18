@@ -30,6 +30,7 @@
                 android:src="@drawable/inr_small" />
 
             <EditText
+                android:id="@+id/amountEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -54,6 +55,7 @@
                 android:textSize="20dp" />
 
             <EditText
+                android:id="@+id/itemEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp" />
@@ -68,6 +70,7 @@
             android:textSize="20dp" />
 
         <Button
+            android:id="@+id/paidByButton"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -82,6 +85,7 @@
             android:textSize="20dp" />
 
         <Button
+            android:id="@+id/splitAmongButton"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
