@@ -10,8 +10,14 @@ import java.util.EnumMap;
 public class HisaabController
 {
     private static HisaabController instance;
-    private static final int MAX_ROOMMATE_COUNT = 4;
+    public static final int MAX_ROOMMATE_COUNT = 4;
     private static Roommate[] roommates;
+
+    public static Roommate[] getRoommates()
+    {
+        return roommates;
+    }
+
     private static Roommate currentRoommate;
     private EnumMap<IndexOf,Integer> roommateIndex;
 

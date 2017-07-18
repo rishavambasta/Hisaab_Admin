@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Created by Rishav
@@ -22,8 +23,10 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
 {
 
     private Roommate payer;
-    EditText amountEditText,itemEditText;
-    Button payedByButton,splitAmongButton;
+    private EditText amountEditText,itemEditText;
+    private Button payedByButton,splitAmongButton;
+    private boolean[] splitAmongFlags;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -40,6 +43,11 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
         payer = HisaabController.instance().getCurrentRoommate();
 
         payedByButton.setText(payer.getName());
+
+        splitAmongFlags = new boolean[HisaabController.MAX_ROOMMATE_COUNT];
+
+        for (int i=0;i<HisaabController.MAX_ROOMMATE_COUNT;i++)
+            splitAmongFlags[i] = false;
     }
 
     public Dialog getNameTileDialog(boolean okButtonShouldBeVisisble)
@@ -62,6 +70,14 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
         saurabh.setOnClickListener(this);
         rishav.setOnClickListener(this);
 
+        TextView[] nameTextViews = new TextView[HisaabController.MAX_ROOMMATE_COUNT];
+        nameTextViews[0]=(TextView) dialog.findViewById(R.id.naveenTextView);
+        nameTextViews[1]=(TextView) dialog.findViewById(R.id.sandeepTextView);
+        nameTextViews[2]=(TextView) dialog.findViewById(R.id.saurabhTextView);
+        nameTextViews[3]=(TextView) dialog.findViewById(R.id.rishavTextView);
+
+        for (int i=0;i<HisaabController.MAX_ROOMMATE_COUNT;i++)
+            nameTextViews[i].setText(HisaabController.instance().getRoommates()[i].getName());
 
         return dialog;
     }
