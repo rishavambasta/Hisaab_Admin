@@ -77,14 +77,47 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
         nameTextViews[3]=(TextView) dialog.findViewById(R.id.rishavTextView);
 
         for (int i=0;i<HisaabController.MAX_ROOMMATE_COUNT;i++)
-            nameTextViews[i].setText(HisaabController.instance().getRoommates()[i].getName());
+            nameTextViews[i].setText(HisaabController.getRoommates()[i].getName());
 
         return dialog;
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    @Override
     public void onClick(View view)
     {
+        switch (view.getId())
+        {
+            case R.id.splitAmongButton:
+                try
+                {
+                    Dialog dialog = getNameTileDialog(true);
+                    dialog.getWindow().getAttributes().windowAnimations = R.style.PauseDialogAnimation;
+                    dialog.show();
+                }
+                catch (NullPointerException ex)
+                {
+                    ex.printStackTrace();
+                }
+                break;
 
+            case R.id.naveen:
+                view.getBackground().setAlpha(64);
+                break;
+            case R.id.sandeep:
+                view.getBackground().setAlpha(64);
+                break;
+            case R.id.saurabh:
+                view.getBackground().setAlpha(64);
+                break;
+            case R.id.rishav:
+                view.getBackground().setAlpha(64);
+                break;
+        }
     }
 }

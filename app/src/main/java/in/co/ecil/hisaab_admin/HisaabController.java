@@ -7,6 +7,10 @@ import java.util.EnumMap;
  * on 18/7/17.
  */
 
+/**********************
+ * Manager/Controller
+ **********************/
+
 public class HisaabController
 {
     private static HisaabController instance;

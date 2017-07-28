@@ -45,19 +45,19 @@ public class HisaabActivity extends AppCompatActivity implements View.OnClickLis
         switch (view.getId())
         {
             case R.id.naveen:
-                HisaabController.instance().setCurrentroommateByIndex(IndexOf.Naveen);
+                controller.setCurrentroommateByIndex(IndexOf.Naveen);
                 break;
 
             case R.id.sandeep:
-                HisaabController.instance().setCurrentroommateByIndex(IndexOf.Sandeep);
+                controller.setCurrentroommateByIndex(IndexOf.Sandeep);
                 break;
 
             case R.id.saurabh:
-                HisaabController.instance().setCurrentroommateByIndex(IndexOf.Saurabh);
+                controller.setCurrentroommateByIndex(IndexOf.Saurabh);
                 break;
 
             case R.id.rishav:
-                HisaabController.instance().setCurrentroommateByIndex(IndexOf.Rishav);
+                controller.setCurrentroommateByIndex(IndexOf.Rishav);
                 break;
         }
         mHandler.post(new Runnable()
@@ -66,7 +66,6 @@ public class HisaabActivity extends AppCompatActivity implements View.OnClickLis
             public void run()
             {
                 startActivity(new Intent().setClass(HisaabActivity.this, AddBill.class).setData(getIntent().getData()));
-                finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
