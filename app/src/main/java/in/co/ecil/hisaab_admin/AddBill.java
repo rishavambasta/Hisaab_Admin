@@ -27,6 +27,9 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
     private Button payedByButton,splitAmongButton;
     private boolean[] splitAmongFlags;
 
+    Dialog nameTileDialog;
+    HisaabController controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -36,11 +39,11 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
         itemEditText = (EditText) findViewById(R.id.itemEditText);
         payedByButton = (Button)findViewById(R.id.paidByButton);
         splitAmongButton = (Button)findViewById(R.id.splitAmongButton);
-
+        controller = HisaabController.getInstance();
         payedByButton.setOnClickListener(this);
         splitAmongButton.setOnClickListener(this);
 
-        payer = HisaabController.getInstance().getCurrentRoommate();
+        payer = controller.getCurrentRoommate();
 
         payedByButton.setText(payer.getName());
 
@@ -50,8 +53,11 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
             splitAmongFlags[i] = false;
     }
 
-    public Dialog getNameTileDialog(boolean okButtonShouldBeVisisble)
+    public Dialog getNameTileDialog()
     {
+        LinearLayout nameTiles[] = new LinearLayout[HisaabController.MAX_ROOMMATE_COUNT];
+        TextView[] nameTextViews = new TextView[HisaabController.MAX_ROOMMATE_COUNT];
+
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         Drawable d = new ColorDrawable(ContextCompat.getColor(this, R.color.dialogBackground));
@@ -60,24 +66,21 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         dialog.getWindow().setBackgroundDrawable(d);
 
-        LinearLayout naveen,sandeep,saurabh,rishav;
-        naveen = (LinearLayout) dialog.findViewById(R.id.naveen);
-        sandeep = (LinearLayout)dialog.findViewById(R.id.sandeep);
-        saurabh = (LinearLayout)dialog.findViewById(R.id.saurabh);
-        rishav = (LinearLayout) dialog.findViewById(R.id.rishav);
-        naveen.setOnClickListener(this);
-        sandeep.setOnClickListener(this);
-        saurabh.setOnClickListener(this);
-        rishav.setOnClickListener(this);
+        nameTiles[controller.getRoommateIndexAt(IndexOf.Naveen)] = (LinearLayout) dialog.findViewById(R.id.naveen);
+        nameTiles[controller.getRoommateIndexAt(IndexOf.Sandeep)] = (LinearLayout)dialog.findViewById(R.id.sandeep);
+        nameTiles[controller.getRoommateIndexAt(IndexOf.Saurabh)] = (LinearLayout)dialog.findViewById(R.id.saurabh);
+        nameTiles[controller.getRoommateIndexAt(IndexOf.Rishav)] = (LinearLayout) dialog.findViewById(R.id.rishav);
 
-        TextView[] nameTextViews = new TextView[HisaabController.MAX_ROOMMATE_COUNT];
         nameTextViews[0]=(TextView) dialog.findViewById(R.id.naveenTextView);
         nameTextViews[1]=(TextView) dialog.findViewById(R.id.sandeepTextView);
         nameTextViews[2]=(TextView) dialog.findViewById(R.id.saurabhTextView);
         nameTextViews[3]=(TextView) dialog.findViewById(R.id.rishavTextView);
 
         for (int i=0;i<HisaabController.MAX_ROOMMATE_COUNT;i++)
+        {
             nameTextViews[i].setText(HisaabController.getInstance().getRoommates()[i].getName());
+            nameTiles[i].setOnClickListener(this);
+        }
 
         return dialog;
     }
@@ -96,9 +99,9 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
             case R.id.splitAmongButton:
                 try
                 {
-                    Dialog dialog = getNameTileDialog(true);
-                    dialog.getWindow().getAttributes().windowAnimations = R.style.PauseDialogAnimation;
-                    dialog.show();
+                    if (nameTileDialog == null) nameTileDialog = getNameTileDialog();
+                    nameTileDialog.getWindow().getAttributes().windowAnimations = R.style.PauseDialogAnimation;
+                    nameTileDialog.show();
                 }
                 catch (NullPointerException ex)
                 {

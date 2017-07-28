@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="400dp"
         android:layout_margin="10dp"
         android:background="@drawable/shape"
         android:orientation="vertical">
@@ -77,6 +77,7 @@
             android:text="You" />
 
         <TextView
+            android:id="@+id/splitterNamesTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -90,6 +91,15 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:text="All" />
+
+        <Button
+            android:layout_margin="50dp"
+            android:id="@+id/okButtonButton"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:text="Ok" />
+
 
     </LinearLayout>
 </LinearLayout>

@@ -11,16 +11,20 @@ public class Transaction
     private String payer; //We expect party's name in string here rather than an enum
     private String amount;
     private String item;
+    private TransactionType type;
     private String timestamp; // Internal variable set automatically to transaction-Id,
                               // Transaction.getTimestamp() makes more sense than Transaction.getTransactionId()
                               // for getting time of occurrence
 
-    public Transaction(String transactionId, String payer, String amount, String item)
+
+    public Transaction(String transactionId, String payer, String amount, String item, TransactionType type, String timestamp)
     {
         this.transactionId = transactionId;
         this.payer = payer;
         this.amount = amount;
         this.item = item;
+        this.type = type;
+        this.timestamp = timestamp;
     }
 
     public String getTransactionId()
@@ -68,5 +72,15 @@ public class Transaction
     public String getTimestamp()
     {
         return timestamp;
+    }
+
+    public TransactionType getType()
+    {
+        return type;
+    }
+
+    public void setType(TransactionType type)
+    {
+        this.type = type;
     }
 }

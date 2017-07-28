@@ -52,9 +52,15 @@ public final class HisaabController
     {
         currentRoommate = roommate;
     }
+
     public void setCurrentroommateByIndex (IndexOf index)
     {
         currentRoommate = roommates[roommateIndex.get(index)];
+    }
+
+    public int getRoommateIndexAt(IndexOf roommate)
+    {
+        return roommateIndex.get(roommate);
     }
 
     public Roommate getCurrentRoommate ()
