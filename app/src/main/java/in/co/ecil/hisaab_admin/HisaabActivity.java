@@ -35,7 +35,7 @@ public class HisaabActivity extends AppCompatActivity implements View.OnClickLis
         saurabh.setOnClickListener(this);
         rishav.setOnClickListener(this);
 
-        controller = HisaabController.instance();
+        controller = HisaabController.getInstance();
 
     }
 

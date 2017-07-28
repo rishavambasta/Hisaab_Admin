@@ -40,7 +40,7 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
         payedByButton.setOnClickListener(this);
         splitAmongButton.setOnClickListener(this);
 
-        payer = HisaabController.instance().getCurrentRoommate();
+        payer = HisaabController.getInstance().getCurrentRoommate();
 
         payedByButton.setText(payer.getName());
 
@@ -77,7 +77,7 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
         nameTextViews[3]=(TextView) dialog.findViewById(R.id.rishavTextView);
 
         for (int i=0;i<HisaabController.MAX_ROOMMATE_COUNT;i++)
-            nameTextViews[i].setText(HisaabController.getRoommates()[i].getName());
+            nameTextViews[i].setText(HisaabController.getInstance().getRoommates()[i].getName());
 
         return dialog;
     }

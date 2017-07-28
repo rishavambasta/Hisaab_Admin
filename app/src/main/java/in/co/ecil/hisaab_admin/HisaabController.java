@@ -11,21 +11,21 @@ import java.util.EnumMap;
  * Manager/Controller
  **********************/
 
-public class HisaabController
+public final class HisaabController
 {
     private static HisaabController instance;
     public static final int MAX_ROOMMATE_COUNT = 4;
-    private static Roommate[] roommates;
+    private  Roommate[] roommates;
 
-    public static Roommate[] getRoommates()
+    public Roommate[] getRoommates()
     {
         return roommates;
     }
 
-    private static Roommate currentRoommate;
+    private Roommate currentRoommate;
     private EnumMap<IndexOf,Integer> roommateIndex;
 
-    public HisaabController()
+    private HisaabController()
     {
         roommates = new Roommate[MAX_ROOMMATE_COUNT];
         roommateIndex = new EnumMap<>(IndexOf.class) ;
@@ -62,7 +62,7 @@ public class HisaabController
         return currentRoommate;
     }
 
-    public static HisaabController instance ()
+    public static HisaabController getInstance ()
     {
         if (instance == null)
             instance = new HisaabController();
