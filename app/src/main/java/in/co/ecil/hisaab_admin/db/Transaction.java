@@ -9,6 +9,7 @@ public class Transaction
 {
     private String transactionId; //transaction-id is timestamp, formatted string YYYYMMDD
     private String payer; //We expect party's name in string here rather than an enum
+    private String payee;
     private String amount;
     private String item;
     private TransactionType type;
@@ -17,10 +18,10 @@ public class Transaction
                               // for getting time of occurrence
 
 
-    public Transaction(String transactionId, String payer, String amount, String item, TransactionType type, String timestamp)
-    {
+    public Transaction(String transactionId, String payer, String payee, String amount, String item, TransactionType type, String timestamp) {
         this.transactionId = transactionId;
         this.payer = payer;
+        this.payee = payee;
         this.amount = amount;
         this.item = item;
         this.type = type;
@@ -82,5 +83,13 @@ public class Transaction
     public void setType(TransactionType type)
     {
         this.type = type;
+    }
+
+    public String getPayee() {
+        return payee;
+    }
+
+    public void setPayee(String payee) {
+        this.payee = payee;
     }
 }
