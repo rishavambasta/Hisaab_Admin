@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Rishav
@@ -24,8 +25,9 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
 
     private Roommate payer;
     private EditText amountEditText,itemEditText;
-    private Button payedByButton,splitAmongButton;
+    private Button payedByButton,splitAmongButton,dialogOkButton;
     private boolean[] splitAmongFlags;
+    LinearLayout nameTiles[];
 
     Dialog nameTileDialog;
     HisaabController controller;
@@ -39,9 +41,15 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
         itemEditText = (EditText) findViewById(R.id.itemEditText);
         payedByButton = (Button)findViewById(R.id.paidByButton);
         splitAmongButton = (Button)findViewById(R.id.splitAmongButton);
+
+
         controller = HisaabController.getInstance();
+
         payedByButton.setOnClickListener(this);
         splitAmongButton.setOnClickListener(this);
+
+
+        nameTiles = new LinearLayout[HisaabController.MAX_ROOMMATE_COUNT];
 
         payer = controller.getCurrentRoommate();
 
@@ -50,12 +58,12 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
         splitAmongFlags = new boolean[HisaabController.MAX_ROOMMATE_COUNT];
 
         for (int i=0;i<HisaabController.MAX_ROOMMATE_COUNT;i++)
-            splitAmongFlags[i] = false;
+            splitAmongFlags[i] = true;
     }
 
     public Dialog getNameTileDialog()
     {
-        LinearLayout nameTiles[] = new LinearLayout[HisaabController.MAX_ROOMMATE_COUNT];
+
         TextView[] nameTextViews = new TextView[HisaabController.MAX_ROOMMATE_COUNT];
 
         Dialog dialog = new Dialog(this);
@@ -65,6 +73,9 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
         dialog.setContentView(R.layout.dialog);
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         dialog.getWindow().setBackgroundDrawable(d);
+
+        dialogOkButton = (Button) dialog.findViewById(R.id.dialogOkButton);
+
 
         nameTiles[controller.getRoommateIndexAt(IndexOf.Naveen)] = (LinearLayout) dialog.findViewById(R.id.naveen);
         nameTiles[controller.getRoommateIndexAt(IndexOf.Sandeep)] = (LinearLayout)dialog.findViewById(R.id.sandeep);
@@ -82,6 +93,8 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
             nameTiles[i].setOnClickListener(this);
         }
 
+        dialogOkButton.setOnClickListener(this);
+
         return dialog;
     }
 
@@ -89,6 +102,28 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    private void toggleAddToSplitList (int roommateIndex)
+    {
+        if (splitAmongFlags[roommateIndex])
+        {
+            splitAmongFlags[roommateIndex] = false;
+            nameTiles[roommateIndex].getBackground().setAlpha(64);
+        }
+        else
+        {
+            splitAmongFlags[roommateIndex] = true;
+            nameTiles[roommateIndex].getBackground().setAlpha(255);
+        }
+
+        String contributors = "";
+        for (int i=0;i<controller.MAX_ROOMMATE_COUNT;i++)
+            if (splitAmongFlags[i])
+                contributors+=controller.getRoommates()[i].getName()+" ";
+
+        splitAmongButton.setText(contributors);
+
     }
 
     @Override
@@ -110,17 +145,36 @@ public class AddBill extends AppCompatActivity implements View.OnClickListener
                 break;
 
             case R.id.naveen:
-                view.getBackground().setAlpha(64);
+                toggleAddToSplitList(controller.getRoommateIndexAt(IndexOf.Naveen));
                 break;
             case R.id.sandeep:
-                view.getBackground().setAlpha(64);
+                toggleAddToSplitList(controller.getRoommateIndexAt(IndexOf.Sandeep));
                 break;
             case R.id.saurabh:
-                view.getBackground().setAlpha(64);
+                toggleAddToSplitList(controller.getRoommateIndexAt(IndexOf.Saurabh));
                 break;
             case R.id.rishav:
-                view.getBackground().setAlpha(64);
+                toggleAddToSplitList(controller.getRoommateIndexAt(IndexOf.Rishav));
                 break;
+
+            case R.id.dialogOkButton:
+                validateNameTilesAndDismissDialog();
         }
+    }
+
+    private void validateNameTilesAndDismissDialog()
+    {
+        boolean allReset = true;
+        for (int i=0;i<controller.MAX_ROOMMATE_COUNT;i++)
+            if (splitAmongFlags[i] == true)
+            {
+                allReset = false;
+                break;
+            }
+
+        if (!allReset)
+            nameTileDialog.dismiss();
+        else
+            Toast.makeText(this,"One should be chosen at-least !!",Toast.LENGTH_SHORT).show();
     }
 }
